@@ -36,10 +36,10 @@ export const authService = {
   },
 
   // Listen to auth state changes
-  onAuthStateChanged: (callback: (user: User | null) => void) => {
+  onAuthStateChanged: (callback: (_user: User | null) => void) => {
     return onAuthStateChanged(auth, (firebaseUser) => {
-      const user = firebaseUser ? mapFirebaseUser(firebaseUser) : null;
-      callback(user);
+      const _user = firebaseUser ? mapFirebaseUser(firebaseUser) : null;
+      callback(_user);
     });
   },
 

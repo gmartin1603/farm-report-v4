@@ -70,7 +70,7 @@ export const firestoreService = {
   // Subscribe to real-time updates for user reports
   subscribeToUserReports: (
     userId: string,
-    callback: (reports: Report[]) => void
+    callback: (_reports: Report[]) => void
   ): (() => void) => {
     const q = query(
       collection(db, REPORTS_COLLECTION),
@@ -79,8 +79,8 @@ export const firestoreService = {
     );
 
     return onSnapshot(q, (querySnapshot: QuerySnapshot<DocumentData>) => {
-      const reports = querySnapshot.docs.map(doc => mapDocToReport(doc.id, doc.data()));
-      callback(reports);
+      const _reports = querySnapshot.docs.map(doc => mapDocToReport(doc.id, doc.data()));
+      callback(_reports);
     });
   },
 };

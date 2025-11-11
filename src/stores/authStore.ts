@@ -4,13 +4,13 @@ import type { User, AuthState } from '@/types/user';
 import { authService } from '@/lib/firebase/auth';
 
 interface AuthStore extends AuthState {
-  signIn: (email: string, password: string) => Promise<void>;
-  signUp: (email: string, password: string) => Promise<void>;
+  signIn: (_email: string, _password: string) => Promise<void>;
+  signUp: (_email: string, _password: string) => Promise<void>;
   signInWithGoogle: () => Promise<void>;
   signOut: () => Promise<void>;
-  setUser: (user: User | null) => void;
-  setLoading: (loading: boolean) => void;
-  setError: (error: string | null) => void;
+  setUser: (_user: User | null) => void;
+  setLoading: (_loading: boolean) => void;
+  setError: (_error: string | null) => void;
   clearError: () => void;
   initialize: () => void;
 }
