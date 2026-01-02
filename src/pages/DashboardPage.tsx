@@ -18,9 +18,11 @@ const DashboardPage: React.FC = () => {
   }
 
   if (error) {
+    console.error('Failed to load reports:', error);
     return (
       <div className="text-center py-12">
         <p className="text-red-600">Failed to load reports. Please try again.</p>
+        <p>If the problem persists, please try again later.</p>
       </div>
     );
   }
