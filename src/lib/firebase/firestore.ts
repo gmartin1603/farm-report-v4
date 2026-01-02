@@ -7,22 +7,28 @@ import {
   getDocs,
   getDoc,
   query,
-  where,
   orderBy,
   onSnapshot,
   Timestamp,
   QuerySnapshot,
   DocumentData,
 } from 'firebase/firestore';
-import { db } from './config';
+import { db, auth } from './config';
 import type { Report, CreateReportInput, UpdateReportInput } from '@/types/report';
 
+const CURRENT_USER_ID = (): string => {
+  const user = auth.currentUser;
+  if (!user) {
+    throw new Error('No authenticated user found');
+  }
+  return user.uid;
+};
 const REPORTS_COLLECTION = 'reports';
 
 export const firestoreService = {
   // Create a new report
   createReport: async (reportData: CreateReportInput): Promise<string> => {
-    const docRef = await addDoc(collection(db, REPORTS_COLLECTION), {
+    const docRef = await addDoc(collection(db, CURRENT_USER_ID(), REPORTS_COLLECTION), {
       ...reportData,
       createdAt: Timestamp.now(),
       updatedAt: Timestamp.now(),
@@ -32,7 +38,7 @@ export const firestoreService = {
 
   // Update an existing report
   updateReport: async (reportId: string, reportData: UpdateReportInput): Promise<void> => {
-    const docRef = doc(db, REPORTS_COLLECTION, reportId);
+    const docRef = doc(db, CURRENT_USER_ID(), REPORTS_COLLECTION, reportId);
     await updateDoc(docRef, {
       ...reportData,
       updatedAt: Timestamp.now(),
@@ -41,13 +47,13 @@ export const firestoreService = {
 
   // Delete a report
   deleteReport: async (reportId: string): Promise<void> => {
-    const docRef = doc(db, REPORTS_COLLECTION, reportId);
+    const docRef = doc(db, CURRENT_USER_ID(), REPORTS_COLLECTION, reportId);
     await deleteDoc(docRef);
   },
 
   // Get a single report by ID
   getReport: async (reportId: string): Promise<Report | null> => {
-    const docRef = doc(db, REPORTS_COLLECTION, reportId);
+    const docRef = doc(db, CURRENT_USER_ID(), REPORTS_COLLECTION, reportId);
     const docSnap = await getDoc(docRef);
     
     if (docSnap.exists()) {
@@ -59,8 +65,8 @@ export const firestoreService = {
   // Get all reports for a user
   getUserReports: async (userId: string): Promise<Report[]> => {
     const q = query(
-      collection(db, REPORTS_COLLECTION),
-      where('userId', '==', userId),
+      collection(db, userId, 'profile', REPORTS_COLLECTION),
+      // where('userId', '==', userId),
       orderBy('date', 'desc')
     );
     const querySnapshot = await getDocs(q);
@@ -73,8 +79,8 @@ export const firestoreService = {
     callback: (_reports: Report[]) => void
   ): (() => void) => {
     const q = query(
-      collection(db, REPORTS_COLLECTION),
-      where('userId', '==', userId),
+      collection(db, userId, 'profile', REPORTS_COLLECTION),
+      // where('userId', '==', userId),
       orderBy('date', 'desc')
     );
 
