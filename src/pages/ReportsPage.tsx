@@ -20,7 +20,7 @@ const DashboardPage: React.FC = () => {
   if (error) {
     return (
       <div className="text-center py-12">
-        <p className="text-red-600">An error occurred. Please try again.</p>
+        <p className="text-red-600">Failed to load reports. Please try again.</p>
       </div>
     );
   }
@@ -30,32 +30,56 @@ const DashboardPage: React.FC = () => {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
-          <p className="text-gray-600">Manage your settings</p>
+          <p className="text-gray-600">Manage your farm reports</p>
         </div>
-        {/* <Link to="/reports/new">
+        <Link to="/reports/new">
           <Button>Create New Report</Button>
-        </Link> */}
+        </Link>
       </div>
 
+      {reports?.length === 0 ? (
+        <Card>
+          <CardHeader>
+            <CardTitle>No Reports Found</CardTitle>
+            <CardDescription>
+              Get started by creating your first farm report.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Link to="/reports/new">
+              <Button>Create Your First Report</Button>
+            </Link>
+          </CardContent>
+        </Card>
+      ) : (
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {reports?.map((report) => (
             <Card key={report.id} className="hover:shadow-md transition-shadow">
               <CardHeader>
                 <CardTitle className="text-lg">
-                  Expenses
+                  Report - {formatDate(report.date)}
                 </CardTitle>
                 <CardDescription>
-                  Crops
+                  Total: {formatCurrency(report.total)}
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-2 text-sm text-gray-600">
+                  <p>{report.expenses.length} expenses</p>
+                  <p>{report.labels.length} labels</p>
                 </div>
                 <div className="mt-4 flex space-x-2">
-                  
+                  <Link to={`/reports/${report.id}/edit`}>
+                    <Button size="sm" variant="outline">
+                      Edit
+                    </Button>
+                  </Link>
                 </div>
               </CardContent>
             </Card>
+          ))}
         </div>
+      )}
     </div>
   );
 };

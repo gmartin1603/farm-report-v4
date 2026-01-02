@@ -12,6 +12,7 @@ import LoginPage from '@/pages/LoginPage';
 import DashboardPage from '@/pages/DashboardPage';
 import NewReportPage from '@/pages/NewReportPage';
 import EditReportPage from '@/pages/EditReportPage';
+import ReportsPage from './pages/ReportsPage';
 
 function App() {
   const { user, loading, initialize } = useAuthStore();
@@ -41,6 +42,7 @@ function App() {
         <Route element={<ProtectedRoute />}>
           <Route element={<Layout />}>
             <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/reports" element={<ReportsPage />} />
             <Route path="/reports/new" element={<NewReportPage />} />
             <Route path="/reports/:id/edit" element={<EditReportPage />} />
           </Route>
