@@ -21,6 +21,7 @@ const DashboardPage: React.FC = () => {
     return (
       <div className="text-center py-12">
         <p className="text-red-600">Failed to load reports. Please try again.</p>
+        <p>{error.message}</p>
       </div>
     );
   }

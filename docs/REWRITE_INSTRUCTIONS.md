@@ -214,7 +214,7 @@ users/{userId}/expenses-4.0/{expenseId}
 
 **Recommendation:** Flatten the structure in the new app:
 ```
-reports/{reportId}  // includes userId field
+{userId}/profile/reports/{reportId}  // includes userId field
   - Embed expenses and labels within report document
   - Simplifies queries and reduces reads
 ```
