@@ -1,13 +1,13 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import { useReports } from '@/features/reports/hooks/useReports';
-import { Button } from '@/components/ui/Button';
+// import { Button } from '@/components/ui/Button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Spinner } from '@/components/ui/Spinner';
-import { formatDate, formatCurrency } from '@/lib/utils/calculations';
+// import { formatDate, formatCurrency } from '@/lib/utils/calculations';
 
 const DashboardPage: React.FC = () => {
-  const { data: reports, isLoading, error } = useReports();
+  const { data: _reports, isLoading, error } = useReports();
 
   if (isLoading) {
     return (
@@ -39,13 +39,32 @@ const DashboardPage: React.FC = () => {
       </div>
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            <Card key={report.id} className="hover:shadow-md transition-shadow">
+            <Card className="hover:shadow-md transition-shadow">
               <CardHeader>
                 <CardTitle className="text-lg">
                   Expenses
                 </CardTitle>
                 <CardDescription>
+                  View and manage your farm expenses
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-2 text-sm text-gray-600">
+                </div>
+                <div className="mt-4 flex space-x-2">
+                  
+                </div>
+              </CardContent>
+            </Card>
+        </div>
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <Card className="hover:shadow-md transition-shadow">
+              <CardHeader>
+                <CardTitle className="text-lg">
                   Crops
+                </CardTitle>
+                <CardDescription>
+                  List of crop and commodities
                 </CardDescription>
               </CardHeader>
               <CardContent>
